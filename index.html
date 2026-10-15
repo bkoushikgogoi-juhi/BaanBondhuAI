@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="বানবন্ধু - বন্যা প্ৰস্তুতি, সুৰক্ষা নিৰ্দেশনা আৰু জৰুৰী পৰিকল্পনাৰ অফলাইন সহায়ক।">
+  <meta name="theme-color" content="#0d3240">
+  <title>বানবন্ধু | BaanBondhu AI</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="manifest" href="./manifest.json">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand-wrap" href="#home" data-screen-link="home" aria-label="বানবন্ধু হোম">
+        <span class="brand-mark" aria-hidden="true">🌊</span>
+        <span class="brand-copy">
+          <span class="eyebrow">BaanBondhu AI</span>
+          <span class="brand-name">বানবন্ধু</span>
+        </span>
+      </a>
+      <div class="connection-status" id="connection-status" role="status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span id="connection-label">অফলাইন সহায়ক</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="screen active" id="screen-home" aria-labelledby="home-title">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow light-eyebrow">আপোনাৰ সুৰক্ষা সহায়ক</p>
+            <h1 id="home-title">নমস্কাৰ 👋</h1>
+            <p class="welcome-copy">প্ৰস্তুতিৰ সৰু পদক্ষেপে জৰুৰী অৱস্থাত সহায় কৰে।</p>
+          </div>
+          <span class="weather-mark" aria-hidden="true">⛑️</span>
+        </div>
+
+
+        <article class="readiness-card">
+          <div class="readiness-top">
+            <div>
+              <p class="eyebrow">আপোনাৰ প্ৰস্তুতি</p>
+              <h2 id="readiness-title">আৰম্ভ কৰোঁ আহক</h2>
+            </div>
+            <strong class="readiness-percent" id="readiness-percent">০%</strong>
+          </div>
+          <div class="progress-track" role="progressbar" aria-label="প্ৰস্তুতিৰ অগ্ৰগতি" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="readiness-progress">
+            <span id="readiness-bar"></span>
+          </div>
+          <p class="readiness-caption" id="readiness-caption">প্ৰস্তুতিৰ তালিকাৰ বস্তুবোৰ সম্পূৰ্ণ কৰি আগবাঢ়ক।</p>
+          <button class="text-button" type="button" data-screen-link="prepare">তালিকা চাওক <span aria-hidden="true">→</span></button>
+        </article>
+
+        <div class="section-title-row">
+          <div>
+            <p class="eyebrow">দ্ৰুত ব্যৱস্থা</p>
+            <h2>এতিয়াই কৰিব পৰা কাম</h2>
+          </div>
+        </div>
+        <div class="quick-grid">
+          <button class="quick-card quick-call" type="button" data-action="call">
+            <span class="quick-icon" aria-hidden="true">📞</span>
+            <span><strong>জৰুৰী ফোন</strong><small>ভাৰতত ১১২</small></span>
+            <span class="quick-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="quick-card" type="button" data-action="share-location">
+            <span class="quick-icon" aria-hidden="true">📍</span>
+            <span><strong>অৱস্থান পঠিয়াওক</strong><small>আপোনাৰ পৰিয়ালৰ সৈতে</small></span>
+            <span class="quick-arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="quick-card" type="button" data-screen-link="safety">
+            <span class="quick-icon" aria-hidden="true">🛟</span>
+            <span><strong>সুৰক্ষা নিৰ্দেশনা</strong><small>আগতে, সময়ত আৰু পিছত</small></span>
+            <span class="quick-arrow" aria-hidden="true">→</span>
+          </button>
+          <button class="quick-card" type="button" data-screen-link="plan">
+            <span class="quick-icon" aria-hidden="true">👨‍👩‍👧</span>
+            <span><strong>পৰিয়ালৰ পৰিকল্পনা</strong><small>নিজৰ বাবে সংৰক্ষণ কৰক</small></span>
+            <span class="quick-arrow" aria-hidden="true">→</span>
+          </button>
+          <button class="quick-card" type="button" data-screen-link="map">
+            <span class="quick-icon" aria-hidden="true">🗺️</span>
+            <span><strong>সুৰক্ষা মানচিত্ৰ</strong><small>আশ্ৰয়, চিকিৎসালয় আৰু বান-বিপদ</small></span>
+            <span class="quick-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        
+        <aside class="notice-card">
+          <span class="notice-icon" aria-hidden="true">ℹ️</span>
+          <p><strong>মন কৰিব:</strong> এই এপত লাইভ বতৰ বা চৰকাৰী সতৰ্কবাণী নাই। স্থানীয় প্ৰশাসনৰ নিৰ্দেশনা সদায় মানি চলক।</p>
+        </aside>
+
+        <!-- Emergency Radio & Assamese Audio -->
+        <section class="card radio-section" id="emergency-radio">
+          <div class="section-heading">
+            <p>অফলাইন সহায়</p>
+            <h2>📻 জৰুৰী ৰেডিঅ’ আৰু অসমীয়া অডিঅ’</h2>
+          </div>
+
+          <p>ইণ্টাৰনেট নাথাকিলেও আগতে সংৰক্ষণ কৰা সুৰক্ষা বাৰ্তা শুনক।</p>
+
+          <div class="radio-card">
+            <h3>🔊 বানপানীৰ সুৰক্ষা বাৰ্তা</h3>
+            <p>অসমীয়া ভাষাত ৰেকৰ্ড কৰা জৰুৰী ঘোষণা</p>
+
+            <audio controls preload="metadata">
+              <source src="./audio/flood-safety-as.aac" type="audio/aac">
+              আপোনাৰ ব্ৰাউজাৰে এই অডিঅ’ চলাব নোৱাৰে।
+            </audio>
+
+            <a href="./audio/flood-safety-as.aac" download="flood-safety-as.aac">
+              অডিঅ’ সংৰক্ষণ কৰক
+            </a>
+          </div>
+
+          <div class="radio-card">
+            <h3>📡 লাইভ ৰেডিঅ’ বাতৰি</h3>
+            <p>ইণ্টাৰনেট উপলব্ধ থাকিলে অনলাইন বাতৰি শুনিব পাৰিব।</p>
+            <a href="https://newsonair.gov.in/nsd-audio/"
+               target="_blank" rel="noopener noreferrer">
+              Akashvani অডিঅ’ বাতৰি খোলক
+            </a>
+          </div>
+
+          <p class="radio-warning">
+            মনত ৰাখিব: এইটো ফোনৰ FM ৰেডিঅ’ ৰিচিভাৰ নহয়।
+            লাইভ বাতৰিৰ বাবে ইণ্টাৰনেট লাগিব পাৰে।
+            অফলাইন অডিঅ’ চলাবলৈ ফাইলটো আগতে সংৰক্ষণ আৰু পৰীক্ষা কৰিব লাগিব।
+          </p>
+        </section>
+      </section>
+
+
+      <section class="screen" id="screen-prepare" aria-labelledby="prepare-title" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">প্ৰস্তুতি</p>
+          <h1 id="prepare-title">জৰুৰী সামগ্ৰীৰ তালিকা</h1>
+          <p>আপুনি সম্পূৰ্ণ কৰা বস্তুবোৰ সংৰক্ষিত থাকিব—নেটৱৰ্ক নাথাকিলেও।</p>
+        </div>
+        <article class="card checklist-card">
+          <div class="list-progress-row">
+            <div>
+              <strong id="checklist-count">০ / ১০ সম্পূৰ্ণ</strong>
+              <p>প্ৰস্তুতিৰ অগ্ৰগতি</p>
+            </div>
+            <span class="list-progress-icon" aria-hidden="true">🎒</span>
+          </div>
+          <div class="progress-track small-progress" role="progressbar" aria-label="তালিকাৰ অগ্ৰগতি" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="checklist-progress">
+            <span id="checklist-bar"></span>
+          </div>
+          <div class="checklist-items" id="checklist-items"></div>
+          <form class="add-item-form" id="add-item-form">
+            <label class="visually-hidden" for="new-item">নিজৰ প্ৰস্তুতিৰ বস্তু যোগ কৰক</label>
+            <input id="new-item" name="item" maxlength="80" placeholder="নিজৰ বস্তু যোগ কৰক..." required>
+            <button class="icon-button" type="submit" aria-label="তালিকাত যোগ কৰক">＋</button>
+          </form>
+          <button class="subtle-button" id="reset-checklist" type="button">তালিকা পুনৰ আৰম্ভ কৰক</button>
+        </article>
+        <p class="privacy-note">🔒 আপোনাৰ তালিকা কেৱল এই ডিভাইচত সংৰক্ষিত হয়।</p>
+      </section>
+
+      <section class="screen" id="screen-safety" aria-labelledby="safety-title" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">সুৰক্ষা নিৰ্দেশনা</p>
+          <h1 id="safety-title">নিৰাপদে থাকক</h1>
+          <p>জৰুৰী অৱস্থাত স্থানীয় প্ৰশাসন আৰু উদ্ধাৰকাৰীৰ নিৰ্দেশনা অনুসৰণ কৰক।</p>
+        </div>
+        <article class="card guide-card">
+          <span class="guide-icon" aria-hidden="true">🌤️</span>
+          <div class="section-heading">
+            <p>সতৰ্কবাণীৰ আগতে</p>
+            <h2>আগতীয়াকৈ সাজু হওক</h2>
+          </div>
+          <ul class="tips-list">
+            <li>পানী, শুকান খাদ্য, ঔষধ, টৰ্চ আৰু চাৰ্জ কৰা ফোন সাজু ৰাখক।</li>
+            <li>গুৰুত্বপূৰ্ণ নথি পানী নোসোমোৱা বেগত ৰাখক।</li>
+            <li>পৰিয়ালৰ সৈতে মিলিত হোৱাৰ ঠাই আৰু যোগাযোগৰ উপায় ঠিক কৰক।</li>
+          </ul>
+        </article>
+        <article class="card guide-card">
+          <span class="guide-icon" aria-hidden="true">🌧️</span>
+          <div class="section-heading">
+            <p>বানপানীৰ সময়ত</p>
+            <h2>পানীৰ পৰা দূৰত থাকক</h2>
+          </div>
+          <ul class="tips-list">
+            <li>বাঢ়নী পানীৰ মাজেৰে খোজ কাঢ়ি বা বাহন চলাই পাৰ হ’বলৈ চেষ্টা নকৰিব।</li>
+            <li>বিদ্যুতৰ খুঁটা, ওলমি থকা তাঁৰ আৰু বৈদ্যুতিক সঁজুলিৰ পৰা আঁতৰি থাকক।</li>
+            <li>প্ৰশাসনে ক’লে তৎক্ষণাৎ নিৰাপদ আশ্ৰয়স্থললৈ যাওক; লিফ্ট ব্যৱহাৰ নকৰিব।</li>
+            <li>সতৰ্কবাণীৰ বাবে চৰকাৰী আৰু স্থানীয় প্ৰশাসনৰ ঘোষণা শুনক।</li>
+          </ul>
+        </article>
+        <article class="card guide-card">
+          <span class="guide-icon" aria-hidden="true">🌱</span>
+          <div class="section-heading">
+            <p>পানী কমাৰ পিছত</p>
+            <h2>সাৱধানে উভতি আহক</h2>
+          </div>
+          <ul class="tips-list">
+            <li>প্ৰশাসনে নিৰাপদ বুলি নোকোৱালৈকে ঘৰলৈ উভতি নাযাব।</li>
+            <li>দূষিত পানী নাখাব; নিৰাপদ খোৱাপানী ব্যৱহাৰ কৰক।</li>
+            <li>ক্ষতিগ্ৰস্ত বিদ্যুতৰ তাঁৰ বা অট্টালিকাত হাত নিদিব আৰু প্ৰৱেশ নকৰিব।</li>
+          </ul>
+        </article>
+        <aside class="notice-card">
+          <span class="notice-icon" aria-hidden="true">⚠️</span>
+          <p>এই সাধাৰণ নিৰ্দেশনাই স্থানীয় প্ৰশাসন বা জৰুৰী সেৱাৰ নিৰ্দেশনাৰ বিকল্প নহয়।</p>
+        </aside>
+      </section>
+
+      <section class="screen" id="screen-plan" aria-labelledby="plan-title" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">পৰিয়ালৰ পৰিকল্পনা</p>
+          <h1 id="plan-title">আগতে ঠিক কৰি থওক</h1>
+          <p>আপোনাৰ পৰিয়ালৰ যোগাযোগ আৰু নিৰাপদ ঠাইৰ তথ্য এই ডিভাইচত সংৰক্ষণ কৰক।</p>
+        </div>
+        <form class="card plan-form" id="plan-form">
+          <label for="plan-contact">জৰুৰীকালীন পৰিয়ালৰ যোগাযোগ</label>
+          <input id="plan-contact" name="contact" type="tel" maxlength="30" autocomplete="tel" placeholder="ফোন নম্বৰ">
+          <label for="plan-meeting">মিলিত হোৱাৰ নিৰাপদ ঠাই</label>
+          <input id="plan-meeting" name="meeting" maxlength="100" placeholder="যেনে: ওচৰৰ নিৰ্দিষ্ট আশ্ৰয়স্থল">
+          <label for="plan-shelter">নিৰাপদ আশ্ৰয়স্থল / দিশ</label>
+          <textarea id="plan-shelter" name="shelter" rows="3" maxlength="200" placeholder="ঠিকনা বা চিনাক্ত কৰিব পৰা দিশ"></textarea>
+          <button class="primary-btn save-plan" type="submit">পৰিকল্পনা সংৰক্ষণ কৰক</button>
+          <p class="form-status" id="plan-status" role="status" aria-live="polite"></p>
+        </form>
+        <p class="privacy-note">🔒 এই তথ্য কেৱল এই ডিভাইচত থাকে। শ্বেয়াৰ কৰা বা ৰাজহুৱা ডিভাইচত সংৰক্ষণ নকৰিব।</p>
+      </section>
+
+      <section class="screen" id="screen-map" aria-labelledby="map-title" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">স্থানীয় সহায়</p>
+          <h1 id="map-title">বান সুৰক্ষা মানচিত্ৰ</h1>
+          <p>ঘিলামৰাৰ আশ্ৰয় আৰু চিকিৎসালয়, লগতে ধেমাজিৰ বান-বিপদৰ স্থান চাওক।</p>
+        </div>
+        <article class="card map-card">
+          <div class="map-actions">
+            <button class="primary-btn" id="map-locate" type="button">📍 মোৰ অৱস্থান</button>
+            <button class="secondary-btn" id="map-refresh" type="button">↻ সকলো স্থান চাওক</button>
+          </div>
+          <div class="map-filters" aria-label="মানচিত্ৰৰ স্তৰ">
+            <label><input type="checkbox" data-map-filter="shelter" checked> <span class="map-key shelter-key"></span> আশ্ৰয়স্থল</label>
+            <label><input type="checkbox" data-map-filter="hospital" checked> <span class="map-key hospital-key"></span> চিকিৎসালয়</label>
+            <label><input type="checkbox" data-map-filter="flood" checked> <span class="map-key flood-key"></span> বান-বিপদ</label>
+          </div>
+          <p class="map-status" id="map-status" role="status" aria-live="polite">ঘিলামৰা আৰু ধেমাজিৰ নিৰ্দিষ্ট স্থানসমূহ লোড হ’বলৈ অপেক্ষা কৰি আছে।</p>
+          <div id="flood-map" aria-label="আশ্ৰয়স্থল, চিকিৎসালয় আৰু বান-বিপদৰ মানচিত্ৰ"></div>
+          <p class="map-disclaimer">ঘিলামৰাৰ আশ্ৰয়ৰ চিহ্নটো কেৱল অঞ্চলৰ আনুমানিক স্থান—ই চৰকাৰীভাৱে নিশ্চিত আশ্ৰয়স্থল নহয়। চিকিৎসালয়ৰ চিহ্নটো OpenStreetMap-ত থকা CHC, Ghilamora। ধেমাজিৰ চিহ্নটো বান-বিপদৰ অঞ্চলৰ আনুমানিক চিহ্ন, লাইভ পানীৰ অৱস্থা বা চৰকাৰী সতৰ্কবাণী নহয়। যোৱাৰ আগতে স্থানীয় কৰ্তৃপক্ষৰ পৰা নিশ্চিত হওক।</p>
+        </article>
+      </section>
+
+      <section class="screen" id="screen-help" aria-labelledby="help-title" hidden>
+        <div class="page-heading">
+          <p class="eyebrow">সহায়তা</p>
+          <h1 id="help-title">সহায়ৰ বাবে যোগাযোগ</h1>
+          <p>জৰুৰী অৱস্থাত আপোনাৰ স্থানীয় জৰুৰী সেৱা বা প্ৰশাসনৰ সৈতে যোগাযোগ কৰক।</p>
+        </div>
+        <article class="emergency-card">
+          <span class="emergency-icon" aria-hidden="true">🆘</span>
+          <p class="eyebrow light-eyebrow">ভাৰতৰ জৰুৰীকালীন নম্বৰ</p>
+          <h2>১১২</h2>
+          <p>জৰুৰী সহায়ৰ বাবে ফোন কৰক। উপলব্ধ নে নাই নিশ্চিত কৰিবলৈ আপোনাৰ সেৱা প্ৰদানকাৰীৰ সৈতে যোগাযোগ কৰক।</p>
+          <a class="primary-btn emergency-call" href="tel:112">📞 ১১২-লৈ ফোন কৰক</a>
+        </article>
+        <article class="card support-section">
+          <div class="section-heading">
+            <p>অফলাইন সহায়ক</p>
+            <h2>সাধাৰণ প্ৰশ্ন</h2>
+          </div>
+          <button class="action-btn" type="button" data-answer="before">বানৰ আগতে কি সাজু ৰাখিম?</button>
+          <button class="action-btn" type="button" data-answer="offline">নেটৱৰ্ক নাথাকিলে কি হ’ব?</button>
+          <button class="action-btn" type="button" data-answer="water">বাঢ়নী পানী পাৰ হ’ব পাৰিমনে?</button>
+          <button class="action-btn" type="button" data-answer="evacuate">কেতিয়া আশ্ৰয়স্থললৈ যাব লাগে?</button>
+          <button class="action-btn" type="button" data-answer="drinking-water">খোৱাপানী কেনেকৈ সুৰক্ষিত ৰাখিম?</button>
+          <button class="action-btn" type="button" data-answer="electricity">পানী ঘৰত সোমালে কি কৰিম?</button>
+          <button class="action-btn" type="button" data-answer="documents">নথি-পত্ৰ কেনেকৈ সুৰক্ষিত ৰাখিম?</button>
+          <button class="action-btn" type="button" data-answer="family">পৰিয়ালৰ যোগাযোগ কেনেকৈ ঠিক কৰিম?</button>
+          <button class="action-btn" type="button" data-answer="return">পানী কমিলে ঘৰলৈ উভতিব পাৰিমনে?</button>
+          <button class="action-btn" type="button" data-answer="phone">ফোনৰ চাৰ্জ কেনেকৈ বচাম?</button>
+          <button class="action-btn" type="button" data-answer="children">শিশু বা বৃদ্ধ লোকৰ বাবে কি সাজু ৰাখিম?</button>
+          <button class="action-btn" type="button" data-answer="pets">পোহনীয়া জন্তু থাকিলে কি কৰিম?</button>
+          <p id="answer" class="answer-box" role="status" aria-live="polite">এটা প্ৰশ্ন বাছনি কৰক।</p>
+        </article>
+        <button class="secondary-btn share-button" type="button" data-action="share-location">📍 মোৰ অৱস্থান শ্বেয়াৰ কৰক</button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="এপ নেভিগেশ্যন">
+      <button class="nav-item active" type="button" data-screen-link="home" aria-current="page">
+        <span aria-hidden="true">⌂</span><small>হোম</small>
+      </button>
+      <button class="nav-item" type="button" data-screen-link="prepare">
+        <span aria-hidden="true">✓</span><small>প্ৰস্তুতি</small>
+      </button>
+      <button class="nav-item" type="button" data-screen-link="map">
+        <span aria-hidden="true">🗺️</span><small>মানচিত্ৰ</small>
+      </button>
+      <button class="nav-item" type="button" data-screen-link="safety">
+        <span aria-hidden="true">🛟</span><small>সুৰক্ষা</small>
+      </button>
+      <button class="nav-item" type="button" data-screen-link="help">
+        <span aria-hidden="true">♡</span><small>সহায়</small>
+      </button>
+    </nav>
+  </div>
+
+  <div class="toast" id="app-toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const checklistStorageKey = "baanbondhu-checklist-v2";
+      const planStorageKey = "baanbondhu-family-plan-v1";
+      const defaultItems = [
+        { id: "water", text: "খোৱাপানী আৰু শুকান খাদ্য" },
+        { id: "first-aid", text: "প্ৰাথমিক চিকিৎসাৰ বাকচ আৰু ঔষধ" },
+        { id: "light", text: "টৰ্চ আৰু অতিৰিক্ত বেটাৰী" },
+        { id: "phone", text: "চাৰ্জ কৰা ফোন আৰু power bank" },
+        { id: "documents", text: "পানী নোসোমোৱা বেগত গুৰুত্বপূৰ্ণ নথি" },
+        { id: "clothes", text: "অতিৰিক্ত কাপোৰ আৰু প্ৰয়োজনীয় সামগ্ৰী" },
+        { id: "radio", text: "বেটাৰী চালিত ৰেডিঅ’" },
+        { id: "cash", text: "কিছু নগদ ধন" },
+        { id: "children", text: "শিশু, বৃদ্ধ বা বিশেষ প্ৰয়োজনৰ সামগ্ৰী" },
+        { id: "pets", text: "পোহনীয়া জন্তুৰ খাদ্য আৰু প্ৰয়োজনীয় বস্তু" }
+      ];
+      const answerCopy = {
+        before: "পানী, শুকান খাদ্য, ঔষধ, টৰ্চ, চাৰ্জ কৰা ফোন আৰু গুৰুত্বপূৰ্ণ নথি সাজু ৰাখক। পৰিয়ালৰ সৈতে নিৰাপদে মিলিত হোৱাৰ ঠাই ঠিক কৰক।",
+        offline: "এই এপত সংৰক্ষিত তালিকা আৰু সুৰক্ষাৰ নিৰ্দেশনা অফলাইনত পঢ়িব পাৰিব। নেটৱৰ্ক নাথাকিলে নতুন লাইভ সতৰ্কবাণী নাপাব।",
+        water: "নহয়। বাঢ়নী পানীৰ মাজেৰে খোজ কাঢ়ি বা বাহন চলাই পাৰ হ’বলৈ চেষ্টা নকৰিব। নিৰাপদ ঠাইলৈ যাওক আৰু প্ৰশাসনৰ নিৰ্দেশনা মানক।",
+        evacuate: "স্থানীয় প্ৰশাসনে নিৰ্দেশ দিলে বা আপোনাৰ ঠাই বিপদজনক হ’লে পলম নকৰি নিৰাপদ আশ্ৰয়স্থললৈ যাওক। আগতেই ৰাস্তা আৰু পৰিয়ালৰ মিলনস্থলী ঠিক কৰি থওক।",
+        "drinking-water": "কেৱল নিৰাপদ, সিল কৰা বা স্থানীয় কৰ্তৃপক্ষই খোৱাপানীৰ বাবে অনুমোদন কৰা পানী ব্যৱহাৰ কৰক। বানৰ পানী বা সন্দেহজনক পানী নাখাব; পানীৰ সুৰক্ষা সম্পৰ্কে স্থানীয় স্বাস্থ্য বিভাগৰ নিৰ্দেশনা মানক।",
+        electricity: "পানীত থিয় হৈ কোনো বৈদ্যুতিক সঁজুলি, তাঁৰ বা চুইচ স্পৰ্শ নকৰিব। নিৰাপদে কৰিব পৰা আৰু কৰ্তৃপক্ষই অনুমতি দিয়া অৱস্থাতহে বিদ্যুৎ বন্ধ কৰক; বিপদ থাকিলে আঁতৰি গৈ বিদ্যুৎ বিভাগক জনাওক।",
+        documents: "পৰিচয়-পত্ৰ, চিকিৎসাৰ নথি আৰু প্ৰয়োজনীয় ফোন নম্বৰৰ কপি পানী নোসোমোৱা বেগত ৰাখক। সম্ভৱ হ’লে গুৰুত্বপূৰ্ণ নথিৰ সুৰক্ষিত ডিজিটেল কপিও ৰাখক।",
+        family: "এটা জৰুৰী যোগাযোগ ব্যক্তি, মিলিত হোৱাৰ ঠাই আৰু বিকল্প যোগাযোগৰ উপায় ঠিক কৰক। সকলো সদস্যক নম্বৰবোৰ লিখি দিয়ক; কেৱল ফোনত ভৰসা নকৰিব।",
+        return: "প্ৰশাসনে নিৰাপদ বুলি ঘোষণা নকৰালৈকে ঘৰলৈ উভতি নাযাব। ক্ষতিগ্ৰস্ত অট্টালিকা, দূষিত পানী, ধ্বংসাৱশেষ আৰু ওলমি থকা বিদ্যুতৰ তাঁৰৰ পৰা আঁতৰি থাকক।",
+        phone: "আগতে ফোন আৰু power bank সম্পূৰ্ণ চাৰ্জ কৰক। অপ্ৰয়োজনীয় ব্যৱহাৰ কমাওক, battery saver ব্যৱহাৰ কৰক আৰু জৰুৰী নম্বৰ কাগজত লিখি ৰাখক।",
+        children: "শিশু, বৃদ্ধ আৰু বিশেষ প্ৰয়োজন থকা লোকৰ ঔষধ, সহায়ক সঁজুলি, পৰিচয়ৰ তথ্য আৰু প্ৰয়োজনীয় সামগ্ৰী সাজু ৰাখক। তেওঁলোকক পৰিয়ালৰ পৰিকল্পনাত অন্তৰ্ভুক্ত কৰক।",
+        pets: "স্থানীয় আশ্ৰয়স্থলত জন্তু গ্ৰহণ কৰে নে নকৰে আগতে জানি লওক। খাদ্য, পানী, ঔষধ, পৰিচয় আৰু কঢ়িয়াই নিয়াৰ ব্যৱস্থা সাজু ৰাখক; জন্তুক বানৰ পানীত এৰি নাযাব।"
+      };
+
+      const readStored = (key, fallback) => {
+        try {
+          const value = localStorage.getItem(key);
+          return value ? JSON.parse(value) : fallback;
+        } catch (error) {
+          console.error("Unable to read saved app data:", error);
+          return fallback;
+        }
+      };
+      const saveStored = (key, value) => {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+          return true;
+        } catch (error) {
+          console.error("Unable to save app data:", error);
+          showToast("তথ্য সংৰক্ষণ কৰিব পৰা নগ’ল। ডিভাইচৰ সংৰক্ষণ পৰীক্ষা কৰক।");
+          return false;
+        }
+      };
+      let checklist = readStored(checklistStorageKey, null);
+      if (!Array.isArray(checklist)) {
+        let legacyChecks = [];
+        try {
+          legacyChecks = defaultItems.map((item, index) => ({
+            ...item,
+            done: localStorage.getItem(`baanbondhu-check-${index}`) === "true",
+            custom: false
+          }));
+        } catch (error) {
+          console.error("Unable to migrate saved checklist data:", error);
+        }
+        checklist = legacyChecks.length
+          ? legacyChecks
+          : defaultItems.map((item) => ({ ...item, done: false, custom: false }));
+      } else {
+        checklist = checklist
+          .filter((item) => item && typeof item.id === "string" && typeof item.text === "string")
+          .map((item) => ({
+            id: item.id,
+            text: item.text,
+            done: Boolean(item.done),
+            custom: Boolean(item.custom)
+          }));
+      }
+
+      const checklistContainer = document.getElementById("checklist-items");
+      const numberFormatter = new Intl.NumberFormat("as");
+      const showToast = (message) => {
+        const toast = document.getElementById("app-toast");
+        toast.textContent = message;
+        toast.classList.add("visible");
+        window.clearTimeout(showToast.timeout);
+        showToast.timeout = window.setTimeout(() => toast.classList.remove("visible"), 3200);
+      };
+
+      const renderChecklist = () => {
+        checklistContainer.replaceChildren();
+        checklist.forEach((item) => {
+          const label = document.createElement("label");
+          label.className = "checklist-item";
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = Boolean(item.done);
+          checkbox.setAttribute("aria-label", item.text);
+          checkbox.addEventListener("change", () => {
+            item.done = checkbox.checked;
+            saveStored(checklistStorageKey, checklist);
+            renderChecklist();
+          });
+          const text = document.createElement("span");
+          text.className = "checklist-item-text";
+          text.textContent = item.text;
+          label.append(checkbox, text);
+          if (item.custom) {
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.className = "remove-item";
+            remove.setAttribute("aria-label", item.text + " আঁতৰাওক");
+            remove.textContent = "×";
+            remove.addEventListener("click", () => {
+              checklist = checklist.filter((entry) => entry.id !== item.id);
+              saveStored(checklistStorageKey, checklist);
+              renderChecklist();
+            });
+            label.append(remove);
+          }
+          checklistContainer.append(label);
+        });
+        const completed = checklist.filter((item) => item.done).length;
+        const percent = checklist.length ? Math.round((completed / checklist.length) * 100) : 0;
+        document.getElementById("checklist-count").textContent =
+          `${numberFormatter.format(completed)} / ${numberFormatter.format(checklist.length)} সম্পূৰ্ণ`;
+        document.getElementById("checklist-progress").setAttribute("aria-valuenow", String(percent));
+        document.getElementById("checklist-bar").style.width = `${percent}%`;
+        document.getElementById("readiness-percent").textContent = `${numberFormatter.format(percent)}%`;
+        document.getElementById("readiness-progress").setAttribute("aria-valuenow", String(percent));
+        document.getElementById("readiness-bar").style.width = `${percent}%`;
+        document.getElementById("readiness-title").textContent =
+          percent === 100 ? "আপুনি সাজু!" : percent > 0 ? "ভালদৰে আগবাঢ়িছে" : "আৰম্ভ কৰোঁ আহক";
+        document.getElementById("readiness-caption").textContent =
+          percent === 100 ? "আপোনাৰ জৰুৰী সামগ্ৰীৰ তালিকা সম্পূৰ্ণ হৈছে।" : "প্ৰস্তুতিৰ তালিকাৰ বস্তুবোৰ সম্পূৰ্ণ কৰি আগবাঢ়ক।";
+      };
+
+      const showScreen = (name) => {
+        document.querySelectorAll(".screen").forEach((screen) => {
+          const active = screen.id === `screen-${name}`;
+          screen.hidden = !active;
+          screen.classList.toggle("active", active);
+        });
+        document.querySelectorAll(".nav-item").forEach((item) => {
+          const active = item.dataset.screenLink === name;
+          item.classList.toggle("active", active);
+          if (active) item.setAttribute("aria-current", "page");
+          else item.removeAttribute("aria-current");
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (name === "map") {
+          window.setTimeout(() => {
+            initializeRescueMap();
+            if (rescueMap) {
+              rescueMap.invalidateSize();
+              rescueMap.fitBounds(mapPlacesBounds, { padding: [16, 16], maxZoom: 11 });
+            }
+          }, 0);
+        }
+      };
+
+      let rescueMap = null;
+      let userLocationMarker = null;
+      let mapLayers = { shelter: null, hospital: null, flood: null };
+      const mapStatus = document.getElementById("map-status");
+      const mapPlacesBounds = [[27.310, 94.410], [27.520, 94.575]];
+      const initializeRescueMap = () => {
+        if (rescueMap) return;
+        if (!window.L) {
+          mapStatus.textContent = "মানচিত্ৰ সেৱা লোড নহ’ল। ইণ্টাৰনেট সংযোগ পৰীক্ষা কৰি পৃষ্ঠা পুনৰ লোড কৰক।";
+          return;
+        }
+        rescueMap = L.map("flood-map");
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          maxZoom: 19
+        }).addTo(rescueMap);
+        mapLayers = {
+          shelter: L.layerGroup().addTo(rescueMap),
+          hospital: L.layerGroup().addTo(rescueMap),
+          flood: L.layerGroup().addTo(rescueMap)
+        };
+        L.circleMarker([27.3200, 94.4180], {
+          radius: 10, color: "#147d55", fillColor: "#32b879", fillOpacity: 0.95, weight: 3
+        }).bindPopup("<strong>আশ্ৰয়ৰ অঞ্চল — ঘিলামৰা</strong><br>আনুমানিক অঞ্চলৰ চিহ্ন; চৰকাৰী আশ্ৰয়স্থল নিশ্চিত নহয়।")
+          .addTo(mapLayers.shelter);
+        L.circleMarker([27.3177168, 94.4208182], {
+          radius: 9, color: "#a52e3a", fillColor: "#e75460", fillOpacity: 0.95, weight: 3
+        }).bindPopup("<strong>CHC, Ghilamora</strong><br>ঘিলামৰা চিকিৎসালয়")
+          .addTo(mapLayers.hospital);
+        L.circle([27.4763797, 94.5629622], {
+          radius: 2200, color: "#c15a18", fillColor: "#f3a252", fillOpacity: 0.3, weight: 2
+        }).bindPopup("<strong>ধেমাজি — বান-বিপদৰ অঞ্চল</strong><br>আনুমানিক অঞ্চলৰ চিহ্ন; লাইভ বানৰ সীমা নহয়।")
+          .addTo(mapLayers.flood);
+        L.circleMarker([27.4763797, 94.5629622], {
+          radius: 8, color: "#a94a13", fillColor: "#e9782b", fillOpacity: 1, weight: 2
+        }).bindPopup("<strong>বান-বিপদৰ অঞ্চল — ধেমাজি</strong><br>আনুমানিক চিহ্ন; বৰ্তমানৰ পানীৰ অৱস্থা স্থানীয়ভাৱে নিশ্চিত কৰক।")
+          .addTo(mapLayers.flood);
+        rescueMap.fitBounds(mapPlacesBounds, { padding: [16, 16], maxZoom: 11 });
+        mapStatus.textContent = "ঘিলামৰাৰ আশ্ৰয়ৰ অঞ্চল আৰু CHC, Ghilamora; ধেমাজিৰ বান-বিপদৰ অঞ্চল দেখুওৱা হৈছে।";
+        document.querySelectorAll("[data-map-filter]").forEach((filter) => {
+          filter.addEventListener("change", () => {
+            const layer = mapLayers[filter.dataset.mapFilter];
+            if (filter.checked) layer.addTo(rescueMap);
+            else rescueMap.removeLayer(layer);
+          });
+        });
+      };
+
+      document.getElementById("map-refresh").addEventListener("click", () => {
+        initializeRescueMap();
+        if (rescueMap) rescueMap.fitBounds(mapPlacesBounds, { padding: [16, 16], maxZoom: 11 });
+      });
+      document.getElementById("map-locate").addEventListener("click", () => {
+        if (!navigator.geolocation) {
+          mapStatus.textContent = "এই ডিভাইচত অৱস্থান সেৱা উপলব্ধ নহয়।";
+          return;
+        }
+        mapStatus.textContent = "আপোনাৰ অৱস্থান বিচৰা হৈছে...";
+        navigator.geolocation.getCurrentPosition((position) => {
+          initializeRescueMap();
+          if (!rescueMap) return;
+          const location = [position.coords.latitude, position.coords.longitude];
+          rescueMap.setView(location, 13);
+          if (userLocationMarker) userLocationMarker.setLatLng(location);
+          else {
+            userLocationMarker = L.circleMarker(location, {
+              radius: 8, color: "#155ca8", fillColor: "#3788df", fillOpacity: 1, weight: 3
+            }).bindPopup("<strong>আপোনাৰ বৰ্তমান অৱস্থান</strong>").addTo(rescueMap);
+          }
+          mapStatus.textContent = "আপোনাৰ অৱস্থান আৰু নিৰ্দিষ্ট সহায়ৰ স্থানসমূহ দেখুওৱা হৈছে।";
+        }, (error) => {
+          console.error("Unable to locate device for map:", error);
+          mapStatus.textContent = "অৱস্থান পোৱা নগ’ল। অনুমতি আৰু GPS পৰীক্ষা কৰক।";
+        }, { enableHighAccuracy: true, timeout: 10000 });
+      });
+
+      document.querySelectorAll("[data-screen-link]").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          const screenName = link.dataset.screenLink;
+          if (window.location.hash !== `#${screenName}`) {
+            window.history.pushState(null, "", `#${screenName}`);
+          }
+          showScreen(screenName);
+        });
+      });
+      const restoreScreenFromLocation = () => {
+        const screenName = window.location.hash.slice(1);
+        if (["home", "prepare", "map", "safety", "plan", "help"].includes(screenName)) {
+          showScreen(screenName);
+        }
+      };
+      window.addEventListener("popstate", restoreScreenFromLocation);
+      window.addEventListener("hashchange", restoreScreenFromLocation);
+      restoreScreenFromLocation();
+
+      document.getElementById("add-item-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const input = document.getElementById("new-item");
+        const text = input.value.trim();
+        if (!text) return;
+        checklist.push({ id: `custom-${Date.now()}`, text, done: false, custom: true });
+        if (saveStored(checklistStorageKey, checklist)) {
+          input.value = "";
+          renderChecklist();
+          showToast("তালিকাত বস্তু যোগ কৰা হ’ল।");
+        }
+      });
+
+      document.getElementById("reset-checklist").addEventListener("click", () => {
+        checklist = checklist.map((item) => ({ ...item, done: false }));
+        if (saveStored(checklistStorageKey, checklist)) {
+          renderChecklist();
+          showToast("তালিকা পুনৰ আৰম্ভ কৰা হ’ল।");
+        }
+      });
+
+      const planForm = document.getElementById("plan-form");
+      const savedPlan = readStored(planStorageKey, {});
+      ["contact", "meeting", "shelter"].forEach((field) => {
+        if (typeof savedPlan[field] === "string") planForm.elements[field].value = savedPlan[field];
+      });
+      planForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const plan = Object.fromEntries(["contact", "meeting", "shelter"].map((field) => [
+          field,
+          planForm.elements[field].value.trim()
+        ]));
+        if (saveStored(planStorageKey, plan)) {
+          document.getElementById("plan-status").textContent = "আপোনাৰ পৰিকল্পনা এই ডিভাইচত সংৰক্ষণ কৰা হ’ল।";
+        }
+      });
+
+      document.querySelectorAll("[data-answer]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.getElementById("answer").textContent = answerCopy[button.dataset.answer];
+        });
+      });
+
+      document.querySelector('[data-action="call"]').addEventListener("click", () => {
+        window.location.href = "tel:112";
+      });
+
+      document.querySelectorAll('[data-action="share-location"]').forEach((button) => {
+        button.addEventListener("click", () => {
+          if (!navigator.geolocation) {
+            showToast("এই ডিভাইচত অৱস্থান সেৱা উপলব্ধ নহয়।");
+            return;
+          }
+          button.disabled = true;
+          navigator.geolocation.getCurrentPosition(async (position) => {
+            const { latitude, longitude } = position.coords;
+            const url = `https://maps.google.com/?q=${latitude},${longitude}`;
+            try {
+              if (navigator.share) {
+                await navigator.share({ title: "মোৰ অৱস্থান", text: "জৰুৰী অৱস্থাত মোৰ অৱস্থান:", url });
+              } else if (navigator.clipboard) {
+                await navigator.clipboard.writeText(url);
+                showToast("অৱস্থানৰ লিংক কপি কৰা হ’ল। পৰিয়ালৰ সৈতে শ্বেয়াৰ কৰক।");
+              } else {
+                window.prompt("এই অৱস্থানৰ লিংক পৰিয়ালৰ সৈতে শ্বেয়াৰ কৰক:", url);
+              }
+            } catch (error) {
+              if (error.name !== "AbortError") {
+                console.error("Unable to share location:", error);
+                showToast("অৱস্থান শ্বেয়াৰ কৰিব পৰা নগ’ল।");
+              }
+            } finally {
+              button.disabled = false;
+            }
+          }, (error) => {
+            button.disabled = false;
+            console.error("Unable to get device location:", error);
+            showToast("অৱস্থান পোৱা নগ’ল। অনুমতি আৰু GPS পৰীক্ষা কৰক।");
+          }, { enableHighAccuracy: true, timeout: 10000 });
+        });
+      });
+
+      const updateConnection = () => {
+        const online = navigator.onLine;
+        document.getElementById("connection-status").classList.toggle("online", online);
+        document.getElementById("connection-label").textContent = online ? "নেটৱৰ্ক সংযুক্ত" : "অফলাইন সহায়ক";
+      };
+      window.addEventListener("online", updateConnection);
+      window.addEventListener("offline", updateConnection);
+      updateConnection();
+      renderChecklist();
+
+      const leafletScript = document.createElement("script");
+      leafletScript.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      leafletScript.onload = () => {
+        if (window.location.hash === "#map") showScreen("map");
+      };
+      leafletScript.onerror = () => {
+        mapStatus.textContent = "মানচিত্ৰ সেৱা লোড নহ’ল। ইণ্টাৰনেট সংযোগ পৰীক্ষা কৰি পৃষ্ঠা পুনৰ লোড কৰক।";
+      };
+      document.head.append(leafletScript);
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch((error) => {
+            console.error("Service worker registration failed:", error);
+          });
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
