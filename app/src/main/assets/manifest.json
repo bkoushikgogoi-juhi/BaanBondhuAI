@@ -1,0 +1,24 @@
+
+{
+  "name": "BaanBondhu AI - বানবন্ধু",
+  "short_name": "বানবন্ধু",
+  "description": "অসমীয়াত বানপানীৰ প্ৰস্তুতি, সুৰক্ষা নিৰ্দেশনা আৰু পৰিয়ালৰ জৰুৰী পৰিকল্পনাৰ অফলাইন সহায়ক",
+  "lang": "as",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4fbf8",
+  "theme_color": "#0d3240",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
